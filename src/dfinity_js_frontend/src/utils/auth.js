@@ -1,8 +1,8 @@
 import { AuthClient } from "@dfinity/auth-client" // for authentication
 // URL of the webapp for the internet identity
 // The URL is used for authentication
-
-const IDENTITY_PROVIDER = `http://localhost:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai#authorize`; // canister id might be different, rely on the output of the deploy command to get the correct canister ID 
+const IDENTITY_PROVIDER = `https://expert-space-carnival-7p4pr4xj6vr2p6vj-4943.app.github.dev/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai#authorize`;
+// const IDENTITY_PROVIDER = `http://localhost:4943/?canisterId=bd3sg-teaaa-aaaaa-qaaba-cai#authorize`; // canister id might be different, rely on the output of the deploy command to get the correct canister ID 
 const MAX_TTL = 7 * 24 * 60 * 60 * 1000 * 1000 * 1000; // Maximum time to live for authentication in nanoseconds
 
 // Create an instance of the AuthClient

@@ -11,7 +11,8 @@ import { idlFactory as ledgerIDL } from "../../../declarations/ledger_canister/l
  */
 const MARKETPLACE_CANISTER_ID = "be2us-64aaa-aaaaa-qaabq-cai";
 const LEDGER_CANISTER_ID = "ryjl3-tyaaa-aaaaa-aaaba-cai";
-const HOST = "http://localhost:4943";
+//const HOST = "http://localhost:4943";
+const HOST = "https://expert-space-carnival-7p4pr4xj6vr2p6vj-4943.app.github.dev";
 
 // Interact with marketplace canister
 export async function getMarketplaceCanister() {
