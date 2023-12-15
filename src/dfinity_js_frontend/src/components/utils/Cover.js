@@ -7,7 +7,8 @@ const Cover = ({ title, login, coverImg }) => {
     return (
       <div
         className="d-flex justify-content-center flex-column text-center "
-        style={{ background: "#000", minHeight: "100vh" }}
+        style={{ background: "rgb(34,12,8)",
+          background: "radial-gradient(circle, rgba(34,12,8,1) 36%, rgba(13,88,89,1) 81%)", minHeight: "100vh" }}
       >
         <div className="mt-auto text-light mb-5">
           <div
@@ -26,7 +27,7 @@ const Cover = ({ title, login, coverImg }) => {
             Connect Wallet
           </Button>
         </div>
-        <p className="mt-auto text-secondary">Powered by Internet Computer</p>
+        <p className="mt-auto text-secondary">Built with Love and Passion.</p>
       </div>
     );
   }

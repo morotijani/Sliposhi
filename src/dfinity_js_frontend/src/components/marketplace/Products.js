@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import AddProduct from "./AddProduct";
 import Product from "./Product";
 import Loader from "../utils/Loader";
-import { Row } from "react-bootstrap";
+import { Row, Button } from "react-bootstrap";
 
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 import {
@@ -35,10 +35,10 @@ const Products = () => {
       createProduct(data).then((resp) => {
         getProducts();
       });
-      toast(<NotificationSuccess text="Product added successfully." />);
+      toast(<NotificationSuccess text="Post added successfully." />);
     } catch (error) {
       console.log({ error });
-      toast(<NotificationError text="Failed to create a product." />);
+      toast(<NotificationError text="Failed to create a post." />);
     } finally {
       setLoading(false);
     }
@@ -69,11 +69,9 @@ const Products = () => {
     <>
       {!loading ? (
         <>
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="fs-4 fw-bold mb-0">Street Food</h1>
+          
             <AddProduct save={addProduct} />
-          </div>
-          <Row xs={1} sm={2} lg={3} className="g-3  mb-5 g-xl-4 g-xxl-5">
+            
             {products.map((_product) => (
               <Product
                 product={{
@@ -82,7 +80,6 @@ const Products = () => {
                 buy={buy}
               />
             ))}
-          </Row>
         </>
       ) : (
         <Loader />

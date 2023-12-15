@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button, Col, Badge, Stack } from "react-bootstrap";
 import { Principal } from "@dfinity/principal";
+import profileImg from "../../assets/img/profile.jpg";
 
 const Product = ({ product, buy }) => {
-  const { id, price, title, description, location, attachmentURL, seller, soldAmount } =
+  const { id, price, title, description, location, attachmentURL, seller, soldAmount, createdAt } =
     product;
 
   const triggerBuy = () => {
@@ -12,38 +13,52 @@ const Product = ({ product, buy }) => {
   };
 
   return (
-    <Col key={id}>
-      <Card className=" h-100">
-        <Card.Header>
-          <Stack direction="horizontal" gap={2}>
-            <span className="font-monospace text-secondary">{Principal.from(seller).toText()}</span>
-            <Badge bg="secondary" className="ms-auto">
-              {soldAmount.toString()} Sold
-            </Badge>
-          </Stack>
-        </Card.Header>
-        <div className=" ratio ratio-4x3">
-          <img src={attachmentURL} alt={title} style={{ objectFit: "cover" }} />
+      <div className="feed" key={id}>
+            <div className="head">
+                <div className="user">
+                    <div className="profile-photo">
+                        <img src={profileImg} />
+                    </div>
+                    <div className="ingo">
+                        <h5>{Principal.from(seller).toText()}</h5>
+                        <small>{location}, {createdAt} . {soldAmount.toString()} subscribed</small>
+                    </div>
+                </div>
+                <span className="edit">
+                    <i className="bi bi-pencil"/>
+                </span>
+                <span className="edit">
+                    <button onClick={triggerBuy}><i className="bi bi-currency-bitcoin"/> Buy for {(price / BigInt(10**8)).toString()} ICP</button>
+                </span>
+            </div>
+        
+            <div className="photo">
+                <img src={attachmentURL} alt={title} />
+            </div>
+
+            <div className="action-buttons">
+                <div className="interaction-buttons">
+                    <span><i className="bi bi-star-half"/></span>
+                    <span><i className="bi bi-chat-left-dots"/></span>
+                    <span><i className="bi bi-share"/></span>
+                </div>
+                <div className="bookmark">
+                    <span><i className="bi bi-bookmark"/></span>
+                </div>
+            </div>
+
+            <div className="liked-by">
+                <span><img src={profileImg} /></span>
+                <span><img src={profileImg} /></span>
+                <span><img src={profileImg} /></span>
+                <p>Liked by <b>baba</b> and <b>2,333 others</b></p>
+            </div>
+
+            <div className="caption">
+                <p><b>Hafiz</b> {title} {description} <span className="harsh-tag">#sportybet</span></p>
+            </div>
+            <div className="comments text-muted">View all 122 comments</div>
         </div>
-        <Card.Body className="d-flex  flex-column text-center">
-          <Card.Title>{title}</Card.Title>
-          <Card.Text className="flex-grow-1 ">{description}</Card.Text>
-          <Card.Text className="text-secondary">
-            <span>{location}</span>
-          </Card.Text>
-          <Card.Text className="text-secondary">
-            <span>{Principal.from(seller).toText()}</span>
-          </Card.Text>
-          <Button
-            variant="outline-dark"
-            onClick={triggerBuy}
-            className="w-100 py-3"
-          >
-            Buy for {(price / BigInt(10**8)).toString()} ICP
-          </Button>
-        </Card.Body>
-      </Card>
-    </Col>
   );
 };
 

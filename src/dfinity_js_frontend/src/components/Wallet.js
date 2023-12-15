@@ -10,7 +10,7 @@ const Wallet = ({ principal, balance, symbol, isAuthenticated, destroy }) => {
             variant="light"
             align="end"
             id="dropdown-basic"
-            className="d-flex align-items-center border rounded-pill py-1"
+            className="text-white btn btn-primary"
           >
             {balance} <span className="ms-1"> {symbol}</span>
           </Dropdown.Toggle>
