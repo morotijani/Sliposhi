@@ -8,6 +8,32 @@ const { hashCode } = require("hashcode");
 import { v4 as uuidv4 } from "uuid";
 
 /**
+ * This type represents a users that can be listed on a board.
+ */
+const User = Record({
+    id: text,
+    internet_identity: text,
+    username: text,
+    email: text,
+    attachmentURL: text,
+    createdAt: nat64,
+    updatedAt: Opt(nat64)
+});
+
+const UserPayload = Record({
+    internet_identity: text,
+    username: text,
+    email: text,
+    attachmentURL: text
+});
+
+const Error = Variant({
+    NotFound: text,
+    InvalidPayload: text,
+});
+
+
+/**
  * Store product data
  * contacins basic properties that are needed to define a product
  * Represents a product that can be listed on a marketplace
@@ -40,7 +66,7 @@ const ProductPayload = Record({
 });
 
 /**
- * Ordr record and OrderStatus
+ * Order record and OrderStatus
  * for tracking and managing orders within the marketplace
  */
 
@@ -89,6 +115,8 @@ const productsStorage = StableBTreeMap(text, Product, 0);
  */
 const persistedOrders = StableBTreeMap(Principal, Order, 1);
 const pendingOrders = StableBTreeMap(nat64, Order, 2)
+const usersStorage = StableBTreeMap(text, User, 3);
+
 
 /**
  * `ORDER_RESERVATION_PERIOD`
@@ -105,6 +133,57 @@ const icpCanister = Ledger(Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai"));
 
 // IMPLEMENTING THE BODY OF OUR CANISTER //
 export default Canister({
+
+    // Fetch all users
+    getUsers: query([], Vec(User), () => {
+        return usersStorage.values();
+    }),
+
+    // Get user
+    getUser: query([text], Result(User, Error), (id) => {
+        const userOpt = usersStorage.get(id);
+        if ("None" in userOpt) {
+            return Err({ NotFound: `the user with id=${id} not found` });
+        }
+        return Ok(userOpt.Some);
+    }),
+
+    // Get user by id
+    getUserId: query([text], Result(User, Error), (id) => {
+        const userOpt = usersStorage.get(id);
+        if ("None" in userOpt) {
+            return Err({ NotFound: `the user with id=${id} not found` });
+        }
+        return Ok(userOpt.Some.id);
+    }),
+
+    // Add user
+    addUser: update([UserPayload], Result(User, Error), (payload) => {
+        const user = { id: uuidv4(), createdAt: ic.time(), updatedAt: None, ...payload };
+        usersStorage.insert(user.id, user);
+        return Ok(user);
+    }),
+
+    // Update user
+    updateUser: update([text, UserPayload], Result(User, Error), (internet_identity, payload) => {
+        const userOpt = usersStorage.get(internet_identity);
+        if ("None" in userOpt) {
+            return Err({ NotFound: `couldn't update a user with id=${internet_identity}. user not found` });
+        }
+        const user = userOpt.Some;
+        const updatedUser = { ...user, ...payload, updatedAt: Some(ic.time()) };
+        usersStorage.insert(user.id, updatedUser);
+        return Ok(updatedUser);
+    }),
+
+    // Delete user
+    deleteUser: update([text], Result(User, Error), (internet_identity) => {
+        const deletedUser = usersStorage.remove(internet_identity);
+        if ("None" in deletedUser) {
+            return Err({ NotFound: `couldn't delete a user with id=${internet_identity}. user not found` });
+        }
+        return Ok(deletedUser.Some);
+    }),
 
     /**
      * Retrieve all producst available in the marketplace
@@ -180,10 +259,6 @@ export default Canister({
         return Ok(deletedProductOpt.Some.id);
     }),
 
-
-    emptyProducts: update([], Result(text, Message), () => {
-        return Ok(productsStorage.remove());
-    }),
 
     // Order Management //
 

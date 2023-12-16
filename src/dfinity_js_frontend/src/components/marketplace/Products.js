@@ -8,7 +8,7 @@ import { Row, Button } from "react-bootstrap";
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 import {
   getProducts as getProductList,
-  createProduct, buyProduct
+  createProduct, buyProducts
 } from "../../utils/marketplace";
 
 const Products = () => {
@@ -48,14 +48,14 @@ const Products = () => {
   const buy = async (id) => {
     try {
       setLoading(true);
-      await buyProduct({
+      await buyProducts({
         id
       }).then((resp) => {
         getProducts();
-        toast(<NotificationSuccess text="Product bought successfully" />);
+        toast(<NotificationSuccess text="Subscribed successfully" />);
       });
     } catch (error) {
-      toast(<NotificationError text="Failed to purchase product." />);
+      toast(<NotificationError text="Failed to subscribe." />);
     } finally {
       setLoading(false);
     }

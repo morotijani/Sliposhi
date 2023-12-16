@@ -1,7 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { transferICP } from "./ledger";
 
-// create product and list new products on the marlet
+// create product and list new products on the market
 export async function createProduct(product) {
     return window.canister.marketplace.addProduct(product);
 }

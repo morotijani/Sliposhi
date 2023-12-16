@@ -20,15 +20,15 @@ const Product = ({ product, buy }) => {
                         <img src={profileImg} />
                     </div>
                     <div className="ingo">
-                        <h5>{Principal.from(seller).toText()}</h5>
+                        <h5>{Principal.from(seller).toText().substring(0, 20)} {Principal.from(seller).toText().length >= 20 && '...'}</h5>
                         <small>{location}, {createdAt} . {soldAmount.toString()} subscribed</small>
+                        <span className="edit">
+                            <i className="bi bi-pencil"/>
+                        </span>
                     </div>
                 </div>
                 <span className="edit">
-                    <i className="bi bi-pencil"/>
-                </span>
-                <span className="edit">
-                    <button onClick={triggerBuy}><i className="bi bi-currency-bitcoin"/> Buy for {(price / BigInt(10**8)).toString()} ICP</button>
+                    <button onClick={triggerBuy}><i className="bi bi-currency-bitcoin"/> Subscribe for {(price / BigInt(10**8)).toString()} ICP</button>
                 </span>
             </div>
         

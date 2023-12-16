@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { Container, Nav } from "react-bootstrap";
+// import AddUser from "./AddProduct";
 import Products from "./components/marketplace/Products";
 import "./App.css";
 import Wallet from "./components/Wallet";
@@ -10,6 +11,10 @@ import { login, logout as destroy } from "./utils/auth";
 import { balance as principalBalance } from "./utils/ledger"
 import Cover from "./components/utils/Cover";
 import { Notification } from "./components/utils/Notifications";
+import {
+    getUsers as findUser, getUserList,
+    createUser, subscribeUser
+  } from "./utils/user";
 
 const App = function AppWrapper() {
     const isAuthenticated = window.auth.isAuthenticated;
@@ -26,6 +31,32 @@ const App = function AppWrapper() {
     useEffect(() => {
         getBalance();
     }, [getBalance]);
+
+    // add new user
+    const addUser = async (data) => {
+
+        // check if user exist
+        findUser({principal}).then((resp) => {
+            if (!resp) {
+                try {
+                    setLoading(true);
+                    data.internet_identity = {principal};
+                    data.username = 'userABC';
+                    data.email = 'email.email.com';
+                    data.attachmentURL = {profileImg};
+                    createUser(data).then((resp) => {
+                      // getProducts();
+                    });
+                    toast(<NotificationSuccess text="User account created successfully." />);
+                  } catch (error) {
+                    console.log({ error });
+                    toast(<NotificationError text="Failed create user account." />);
+                  } finally {
+                    setLoading(false);
+                  }
+            }
+        });
+      };
 
     return (
         <>
@@ -107,6 +138,7 @@ const App = function AppWrapper() {
                             </div>
                 
                             <div className="right">
+                                {/* <AddUser save={addUser} /> */}
                                 <div className="friend-requests">
                                     <h4>Requests</h4>
                                     <div className="request">
