@@ -143,7 +143,7 @@ export default Canister({
     getUser: query([text], Result(User, Error), (id) => {
         const userOpt = usersStorage.get(id);
         if ("None" in userOpt) {
-            return Err({ NotFound: `the user with id=${id} not found` });
+            return Err({ NotFound: `the user with id=${email} not found` });
         }
         return Ok(userOpt.Some);
     }),

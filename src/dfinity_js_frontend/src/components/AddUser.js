@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
-import profileImg from "../../assets/img/profile.jpg";
 
 const AddUser = ({ save }) => {
   const [internet_identity, setInternet_identity] = useState("");
@@ -9,34 +8,43 @@ const AddUser = ({ save }) => {
   const [email, setEmail] = useState("");
   const [attachmentURL, setImage] = useState("");
   const [price, setPrice] = useState(0);
-  const isFormFilled = () => title && attachmentURL && description && location && price;
+
+  const isFormFilled = () => username && attachmentURL && email;
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   return (
     <>
-        <Modal show={show} onHide={handleClose} centered>
+      <input type="button" onClick={handleShow} value="Add details" className="btn btn-primary"/>
+
+      <Modal show={show} onHide={handleClose} centered>
             <Form>
                 <Modal.Body>
                     <FloatingLabel
                         controlId="inputName"
-                        label="From"
+                        label="Username"
                         className="mb-3"
                     >
                         <Form.Control
                             type="text"
                             onChange={(e) => {
-                            setTitle(e.target.value);
+                            setUsername(e.target.value + '121');
                             }}
-                            placeholder="Enter where your post is from eg.(Betpawa)"
+                            placeholder="Username"
                         />
                     </FloatingLabel>
                     <FloatingLabel
                         controlId="inputUrl"
-                        label="Media URL"
+                        label="Profile media URL"
                         className="mb-3"
                     >
                         <Form.Control
                             type="text"
-                            placeholder="Media URL"
+                            placeholder="Profile media URL"
                             onChange={(e) => {
                             setImage(e.target.value);
                             }}
@@ -44,28 +52,14 @@ const AddUser = ({ save }) => {
                     </FloatingLabel>
                     <FloatingLabel
                     controlId="inputDescription"
-                    label="Description"
-                    className="mb-3"
-                    >
-                    <Form.Control
-                        as="textarea"
-                        placeholder="description"
-                        style={{ height: "80px" }}
-                        onChange={(e) => {
-                        setDescription(e.target.value);
-                        }}
-                    />
-                    </FloatingLabel>
-                    <FloatingLabel
-                    controlId="inputLocation"
-                    label="Country"
+                    label="Email"
                     className="mb-3"
                     >
                     <Form.Control
                         type="text"
-                        placeholder="Country"
+                        placeholder="Email"
                         onChange={(e) => {
-                        setLocation(e.target.value);
+                        setEmail(e.target.value);
                         }}
                     />
                     </FloatingLabel>
@@ -91,10 +85,10 @@ const AddUser = ({ save }) => {
                 disabled={!isFormFilled()}
                 onClick={() => {
                 save({
-                    title,
+                    username,
                     attachmentURL,
-                    description,
-                    location,
+                    email,
+                    internet_identity,
                     price,
                 });
                 handleClose();
@@ -104,6 +98,7 @@ const AddUser = ({ save }) => {
             </Button>
             </Modal.Footer>
         </Modal>
+
     </>
   );
 };

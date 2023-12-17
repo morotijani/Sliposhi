@@ -3,6 +3,12 @@ import { transferICP } from "./ledger";
 
 // create product and list new products on the market
 export async function createUser(user) {
+    const values = await window.canister.user.getUsers();
+    const foundValue = values.find(value => value === user.internet_identity);
+    console.log({ foundValue });
+    // if (foundValue == true) {
+    //     return window.canister.user.addUser(user);
+    // }
     return window.canister.user.addUser(user);
 }
 

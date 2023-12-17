@@ -1,7 +1,8 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { toast } from "react-toastify";
 import { useHistory, Redirect } from "react-router-dom";
 import { Container, Nav } from "react-bootstrap";
-// import AddUser from "./AddProduct";
+import AddUser from "./components/AddUser";
 import Products from "./components/marketplace/Products";
 import "./App.css";
 import Wallet from "./components/Wallet";
@@ -32,30 +33,25 @@ const App = function AppWrapper() {
         getBalance();
     }, [getBalance]);
 
-    // add new user
-    const addUser = async (data) => {
+    // const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-        // check if user exist
-        findUser({principal}).then((resp) => {
-            if (!resp) {
-                try {
-                    setLoading(true);
-                    data.internet_identity = {principal};
-                    data.username = 'userABC';
-                    data.email = 'email.email.com';
-                    data.attachmentURL = {profileImg};
-                    createUser(data).then((resp) => {
-                      // getProducts();
-                    });
-                    toast(<NotificationSuccess text="User account created successfully." />);
-                  } catch (error) {
-                    console.log({ error });
-                    toast(<NotificationError text="Failed create user account." />);
-                  } finally {
-                    setLoading(false);
-                  }
-            }
-        });
+    const addUser = async (data) => {
+        try {
+          setLoading(true);
+          //const priceStr = data.price;
+          //data.price = parseInt(priceStr, 10) * 10**8;
+          data.internet_identity = principal;
+          createUser(data).then((resp) => {
+            //getUsers();
+          });
+          toast(<NotificationSuccess text="User account added successfully." />);
+        } catch (error) {
+          console.log({ error });
+          toast(<NotificationError text="Failed to create a user account." />);
+        } finally {
+          setLoading(false);
+        }
       };
 
     return (
@@ -121,7 +117,7 @@ const App = function AppWrapper() {
                                         <span><i class="bi bi-sign-turn-slight-left"></i> Logout</span>
                                     </a>
                                 </div>
-                                <label htmlFor="create-post" className="btn btn-primary">Create Post</label>
+                                <AddUser save={addUser} />
                             </div>
 
                             <div className="middle">
@@ -138,7 +134,6 @@ const App = function AppWrapper() {
                             </div>
                 
                             <div className="right">
-                                {/* <AddUser save={addUser} /> */}
                                 <div className="friend-requests">
                                     <h4>Requests</h4>
                                     <div className="request">

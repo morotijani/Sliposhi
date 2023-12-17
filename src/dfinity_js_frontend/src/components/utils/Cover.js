@@ -18,13 +18,14 @@ const Cover = ({ title, login, coverImg }) => {
             <img src={coverImg} alt="" />
           </div>
           <h1>{title}</h1>
+          <p>Bettors, Trade, Connect.</p>
           <p>Please connect your wallet to continue.</p>
           <Button
             onClick={login}
             variant="outline-light"
             className="rounded-pill px-3 mt-3"
           >
-            Connect Wallet
+            <i className="bi bi-wallet"></i> Connect Wallet
           </Button>
         </div>
         <p className="mt-auto text-secondary">Built with Love and Passion.</p>

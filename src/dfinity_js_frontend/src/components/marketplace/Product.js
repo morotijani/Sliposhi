@@ -13,7 +13,7 @@ const Product = ({ product, buy }) => {
   };
 
   return (
-      <div className="feed" key={id}>
+        <Col className="feed" key={id}>
             <div className="head">
                 <div className="user">
                     <div className="profile-photo">
@@ -21,7 +21,7 @@ const Product = ({ product, buy }) => {
                     </div>
                     <div className="ingo">
                         <h5>{Principal.from(seller).toText().substring(0, 20)} {Principal.from(seller).toText().length >= 20 && '...'}</h5>
-                        <small>{location}, {createdAt} . {soldAmount.toString()} subscribed</small>
+                        <small>{location}, {createdAt} . {soldAmount.toString()} subscribed</small>&nbsp;
                         <span className="edit">
                             <i className="bi bi-pencil"/>
                         </span>
@@ -58,7 +58,7 @@ const Product = ({ product, buy }) => {
                 <p><b>Hafiz</b> {title} {description} <span className="harsh-tag">#sportybet</span></p>
             </div>
             <div className="comments text-muted">View all 122 comments</div>
-        </div>
+        </Col>
   );
 };
 

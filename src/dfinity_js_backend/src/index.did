@@ -5,7 +5,6 @@ service: () -> {
     createOrder: (text) -> (variant {Ok:record {status:variant {PaymentPending:text; Completed:text}; memo:nat64; createdAt:nat64; productId:text; seller:principal; updatedAt:opt nat64; price:nat64; paid_at_block:opt nat64}; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text}});
     deleteProduct: (text) -> (variant {Ok:text; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text}});
     deleteUser: (text) -> (variant {Ok:record {id:text; attachmentURL:text; username:text; createdAt:nat64; email:text; updatedAt:opt nat64; internet_identity:text}; Err:variant {InvalidPayload:text; NotFound:text}});
-    emptyProducts: () -> (variant {Ok:text; Err:variant {PaymentFailed:text; InvalidPayload:text; NotFound:text; PaymentCompleted:text}});
     getAddressFromPrincipal: (principal) -> (text) query;
     getOrders: () -> (vec record {status:variant {PaymentPending:text; Completed:text}; memo:nat64; createdAt:nat64; productId:text; seller:principal; updatedAt:opt nat64; price:nat64; paid_at_block:opt nat64}) query;
     getPendingOrders: () -> (vec record {status:variant {PaymentPending:text; Completed:text}; memo:nat64; createdAt:nat64; productId:text; seller:principal; updatedAt:opt nat64; price:nat64; paid_at_block:opt nat64}) query;
